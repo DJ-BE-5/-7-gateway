@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
     private GatewayService gatewayService;
@@ -24,12 +27,16 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginPost(@ModelAttribute LoginPostDto dto){
+    public String loginPost(@ModelAttribute LoginPostDto dto,
+                            HttpServletRequest request){
         String userId = dto.getUserId();
         String password = dto.getPassword();
         UserLoginResponseDto responseDto = gatewayService.getUser(userId, password);
 
         /*레디스에 세션 추가*/
+        HttpSession session = request.getSession(true);
+        //추가
+        session.setAttribute();
 
         return "index";
     }
