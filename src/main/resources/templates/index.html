@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>내 정보</title>
 </head>
 <body>
-    index
+<h2>내 정보</h2>
+    <thead>
+    <tr>
+        <th>사용자 ID</th>
+        <th>사용자 Email</th>
+        <th>프로젝트 이름</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="info : ${userInfoList}">
+        <td th:text="${info.userId}"></td>
+        <td th:text="${info.userEmail}"></td>
+        <td th:text="${info.projectName}"></td>
+        <td th:text="${info.projectStatus}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

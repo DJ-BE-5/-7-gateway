@@ -3,6 +3,8 @@ package com.nhnacademy.week.gateway.adapter.impl;
 import com.nhnacademy.week.gateway.adapter.UserAdapter;
 import com.nhnacademy.week.gateway.domain.login.UserLoginRequestDto;
 import com.nhnacademy.week.gateway.domain.login.UserLoginResponseDto;
+import com.nhnacademy.week.gateway.domain.users.UserAccountSignUpRequestDto;
+import com.nhnacademy.week.gateway.domain.users.UserGetAllResponseDto;
 import com.nhnacademy.week.gateway.entity.user.User;
 import com.nhnacademy.week.gateway.properties.AccountProperties;
 import org.springframework.core.ParameterizedTypeReference;
@@ -40,6 +42,40 @@ public class UserAdapterImpl implements UserAdapter {
                 new ParameterizedTypeReference<UserLoginResponseDto>() {}
         );
 
+        return exchange.getBody();
+    }
+
+    @Override
+    public List<UserGetAllResponseDto> getAllUsers() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<List<UserGetAllResponseDto>> requestEntity = new HttpEntity<>(httpHeaders);
+        ResponseEntity<List<UserGetAllResponseDto>> exchange = restTemplate.exchange(
+                url + "/users",
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<List<UserGetAllResponseDto>>() {
+                }
+        );
+
+        return exchange.getBody();
+    }
+
+    @Override
+    public String registerUser(UserAccountSignUpRequestDto dto) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        HttpEntity<UserAccountSignUpRequestDto> requestEntity = new HttpEntity<>(dto, httpHeaders);
+        ResponseEntity<String> exchange = restTemplate.exchange(
+                url + "/sign-up",
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<String>() {}
+        );
         return exchange.getBody();
     }
 }

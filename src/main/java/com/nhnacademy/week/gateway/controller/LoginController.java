@@ -6,6 +6,7 @@ import com.nhnacademy.week.gateway.entity.user.User;
 import com.nhnacademy.week.gateway.service.GatewayService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,15 +29,17 @@ public class LoginController {
 
     @PostMapping("/login")
     public String loginPost(@ModelAttribute LoginPostDto dto,
+                            Model model,
                             HttpServletRequest request){
         String userId = dto.getUserId();
         String password = dto.getPassword();
-        UserLoginResponseDto responseDto = gatewayService.getUser(userId, password);
+        UserLoginResponseDto userLoginResponseDto = gatewayService.getUser(userId, password);
 
         /*레디스에 세션 추가*/
         HttpSession session = request.getSession(true);
-        //추가
-        session.setAttribute();
+        session.setAttribute("userId", userLoginResponseDto);
+
+
 
         return "index";
     }
